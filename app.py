@@ -1,18 +1,22 @@
-from flask import Flask, jsonify
+from flask import Flask, request, jsonify
 from db import load_database, search
 
 
 loaded = False
 app = Flask(__name__)
 
-@app.get('/api/search/<address>')
-def getStations(address):
+@app.route('/')
+def home():
+    return app.send_static_file('index.html')
+
+@app.route('/search')
+def getStations():
     global loaded
     if not loaded:
         load_database()
         loaded = True
-    results = search(address)
-    results_json = {'lat': results[0][0], 'lon': results[0][1]}
+    results = search(request.args.get('address'))
+    results_json = {'center': {'lat': results[0][0], 'lon': results[0][1]}}
     locations = []
     for result in results[1]:
         location = {'capacity': result[1],
@@ -24,4 +28,4 @@ def getStations(address):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
