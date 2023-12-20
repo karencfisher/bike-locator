@@ -1,8 +1,7 @@
-let base_url = window.location.origin + window.location.pathname;
-let query_url = base_url + "search"
+let base_url = window.location.origin + window.location.pathname + "search?address=";
 
 function submitForm() {
-    query_url += "?address=" + address.value;
+    let query_url = base_url + address.value;
     d3.json(query_url).then(data => {
         showMap(data);
     })
@@ -18,6 +17,11 @@ function showMap(data) {
     let center_lat = data['center']['lat'];
     let center_lon = data['center']['lon'];
 
+    let container = L.DomUtil.get("map");
+    if (container != null) {
+    container._leaflet_id = null;
+    }
+    
     let map = L.map("map", {
         center: [center_lat, center_lon],
         zoom: 17,
