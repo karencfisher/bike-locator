@@ -1,4 +1,4 @@
-let base_url = window.location.origin + window.location.pathname + "search?address=";
+const base_url = window.location.origin + window.location.pathname + "search?address=";
 
 function submitForm() {
     let query_url = base_url + address.value;
@@ -11,13 +11,13 @@ function showMap(data) {
     let streetmap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     });
-    
+
     let center_lat = data['center']['lat'];
     let center_lon = data['center']['lon'];
 
     let container = L.DomUtil.get("map");
     if (container != null) {
-    container._leaflet_id = null;
+        container._leaflet_id = null;
     }
     
     let map = L.map("map", {
