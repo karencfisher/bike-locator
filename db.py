@@ -13,7 +13,6 @@ def load_database():
     result = requests.get(CITIBIKES_URL)
     if result.status_code != 200:
         raise Exception(f"HTTP error returned {result}")
-        return
     data = result.json()
 
     load_dotenv()
@@ -46,6 +45,8 @@ def load_database():
 
 def search(address, k=5):
     result = requests.get(GEOCODE_URL, {'q': address + ', new York, NY'})
+    if result.status_code != 200:
+        raise Exception(f"HTTP error returned {result}")
     data = result.json()
     lat = float(data[0]['lat'])
     lon = float(data[0]['lon'])

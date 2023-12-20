@@ -26,7 +26,7 @@ function showMap(data) {
         layers: [streetmap]
     });
 
-    let marker = L.marker([center_lat, center_lon], {
+    L.marker([center_lat, center_lon], {
         draggable: false,
         title: "My Location"
     }).addTo(map);
