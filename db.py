@@ -1,6 +1,4 @@
-import os
-import psycopg2
-from dotenv import load_dotenv
+import sqlite3
 import requests
 
 
@@ -15,9 +13,7 @@ def load_database():
         raise Exception(f"HTTP error returned {result}")
     data = result.json()
 
-    load_dotenv()
-    db_url = os.environ.get("DATABSE_URL")
-    connection = psycopg2.connect(db_url)
+    connection = sqlite3.connect('bike_stations.sqlite')
     cursor = connection.cursor()
 
     with open('schema.sql', 'r') as FILE:
@@ -51,9 +47,7 @@ def search(address, k=5):
     lat = float(data[0]['lat'])
     lon = float(data[0]['lon'])
 
-    load_dotenv()
-    db_url = os.environ.get("DATABSE_URL")
-    connection = psycopg2.connect(db_url)
+    connection = sqlite3.connect('bike_stations.sqlite')
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM bike_stations")
     data = cursor.fetchall()
